@@ -12,6 +12,7 @@ let humanNetData = {
 document.addEventListener('DOMContentLoaded', function() {
   loadData();
   setupEventListeners();
+  initPageHandlers();  // NEW: Page-specific initialization
   if (window.location.pathname.includes('feed.html') || window.location.pathname.includes('receiver.html')) {
     pollFeed();
   }
@@ -19,6 +20,32 @@ document.addEventListener('DOMContentLoaded', function() {
     setupSimulation();
   }
 });
+
+// NEW: Page-specific handlers
+function initPageHandlers() {
+  const path = window.location.pathname.split('/').pop(); // Get filename
+  
+  switch(path) {
+    case 'setup.html':
+      setupSetupForm();
+      break;
+    case 'simulation.html':
+      initSimulation();
+      break;
+    case 'crowd.html':
+      setupCrowdHandler();
+      break;
+    case 'sender.html':
+      setupSenderHandler();
+      break;
+    case 'receiver.html':
+      setupReceiverAlerts();
+      break;
+    case 'dashboard.html':
+      setupDashboard();
+      break;
+  }
+}
 
 // Load data from sessionStorage
 function loadData() {
@@ -251,24 +278,353 @@ function setupForms() {
 
 // Setup dashboard role selector
 function setupDashboard() {
-  const roleSelect = document.querySelector('input[name="role"]:checked');
-  if (roleSelect) {
-    const role = roleSelect.value;
-    const roleLinks = {
-      sender: 'sender.html',
-      receiver: 'receiver.html',
-      crowd: 'crowd.html'
-    };
-    const link = document.getElementById('role-link');
-    if (link) link.href = roleLinks[role];
+  const roleRadios = document.querySelectorAll('input[name="role"]');
+  roleRadios.forEach((radio) => {
+    radio.addEventListener("change", function () {
+      const link = document.getElementById("role-link");
+      const text = document.getElementById("role-link-text");
+      const roleLinks = {
+        sender: { href: "sender.html", text: "Go to Sender Simulation" },
+        receiver: {
+          href: "receiver.html",
+          text: "Go to Receiver Simulation",
+        },
+        crowd: { href: "crowd.html", text: "Go to Crowd Report" },
+      };
+      if (roleLinks[this.value]) {
+        link.href = roleLinks[this.value].href;
+        link.textContent = roleLinks[this.value].text;
+        text.style.display = "none";
+      }
+    });
+  });
+}
+
+// NEW: Page-specific functions
+
+// setup.html
+function setupSetupForm() {
+  const form = document.getElementById("setup-form");
+  if (form) {
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+      const settings = {
+        name: document.getElementById("name").value,
+        location: document.getElementById("location").value,
+      };
+      saveSettings(settings);
+      showNotification('Settings saved! Ready for simulation.', 'success');
+    });
   }
 }
 
-// Simulation setup
+// crowd.html
+function setupCrowdHandler() {
+  const btn = document.getElementById("crowd-btn");
+  if (btn) {
+    btn.addEventListener("click", function () {
+      sendCrowdReport();
+    });
+  }
+}
+
+// sender.html
+function setupSenderHandler() {
+  const btn = document.getElementById("sos-btn");
+  if (btn) {
+    btn.addEventListener("click", function () {
+      sendEmergencySOS();
+    });
+  }
+}
+
+// receiver.html - Complex polling/display
+function setupReceiverAlerts() {
+  function displayAlerts() {
+    const container = document.getElementById("alerts-container");
+    if (!container) return;
+    
+    const activeAlerts = humanNetData.alerts.filter(
+      (a) => a.status === "active",
+    );
+    if (activeAlerts.length === 0) {
+      container.innerHTML =
+        '<div class="card" style="text-align: center; grid-column: span 2;"><p>No active alerts. <a href="sender.html">Simulate an emergency</a> first!</p></div>';
+      return;
+    }
+    container.innerHTML = activeAlerts
+      .map(
+        (alert) => `
+      <div class="card alert-card">
+        <h3>🚨 ${alert.emergencyType}</h3>
+        <p><strong>${alert.name}</strong></p>
+        <p>📍 ${alert.location}</p>
+        <p>${alert.description}</p>
+        <p style="color: var(--text-secondary); font-size: 0.9rem;">${alert.timestamp}</p>
+        <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+          <button class="accept-btn btn" data-alert-id="${alert.id}" style="flex: 1; background: var(--success);">✅ ACCEPT RESPONSE</button>
+          <button class="decline-btn btn btn-secondary" data-alert-id="${alert.id}" style="flex: 1;">❌ DECLINE</button>
+        </div>
+      </div>
+    `,
+      )
+      .join("");
+
+    // Re-setup buttons
+    document.querySelectorAll(".accept-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        acceptResponse(parseInt(btn.dataset.alertId));
+        btn.closest(".card").innerHTML +=
+          '<p style="color: var(--success); font-weight: bold;">You are now responding!</p>';
+        btn.remove();
+        btn.nextElementSibling?.remove();
+      });
+    });
+    document.querySelectorAll(".decline-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        declineResponse(parseInt(btn.dataset.alertId));
+        btn.closest(".card").innerHTML +=
+          '<p style="color: var(--text-secondary);">Declined.</p>';
+        btn.remove();
+      });
+    });
+  }
+
+  let lastAlertCount = 0;
+  function checkNewAlerts() {
+    const activeAlerts = humanNetData.alerts.filter(
+      (a) => a.status === "active",
+    );
+    if (activeAlerts.length > lastAlertCount) {
+      playAlertSound();
+      if (activeAlerts[activeAlerts.length - 1]) {
+        showFullScreenAlert(activeAlerts[activeAlerts.length - 1]);
+      }
+      lastAlertCount = activeAlerts.length;
+    }
+    displayAlerts();
+  }
+  setInterval(checkNewAlerts, 1000);
+  checkNewAlerts();
+}
+
+// simulation.html - Complex logic moved here
+function initSimulation() {
+  // Global simulation functions exposed to onclick handlers
+  window.simulateSenderSOS = simulateSenderSOS;
+  window.nextSenderStage = nextSenderStage;
+  window.volunteerAccept = volunteerAccept;
+  window.volunteerDecline = volunteerDecline;
+  window.resolveEmergency = resetSimulation;
+
+  // Controls
+  const simSOS = document.getElementById("sim-sos");
+  const simCrowd = document.getElementById("sim-crowd");
+  const resetBtn = document.getElementById("reset-sim");
+  if (simSOS) simSOS.onclick = () => runSimulation("sos");
+  if (simCrowd) simCrowd.onclick = () => runSimulation("crowd");
+  if (resetBtn) resetBtn.onclick = resetSimulation;
+}
+
+const simStages = {
+  sos: [
+    { sender: "sos-ready", network: "idle", volunteer: "idle" },
+    { sender: "sos-sent", network: "received", volunteer: "idle" },
+    { sender: "waiting-help", network: "processing", volunteer: "idle" },
+    {
+      sender: "waiting-help",
+      network: "broadcasting",
+      volunteer: "idle",
+    },
+    {
+      sender: "volunteer-responding",
+      network: "response-active",
+      volunteer: "responding",
+    },
+    { sender: "safe", network: "resolved", volunteer: "completed" },
+  ],
+  crowd: [
+    { sender: "crowd-ready", network: "idle", volunteer: "idle" },
+    {
+      sender: "crowd-sent",
+      network: "crowd-received",
+      volunteer: "awareness",
+    },
+  ],
+};
+
+function runSimulation(type) {
+  const currentSim = type;
+  let stage = 0;
+  const interval = setInterval(() => {
+    if (stage >= simStages[type].length) {
+      clearInterval(interval);
+      return;
+    }
+    updateSimulationStage(simStages[type][stage]);
+    stage++;
+  }, 1500);
+}
+
+function updateSimulationStage(stageData) {
+  // Update sender panel
+  const senderContent = getPanelContent("sender", stageData.sender);
+  document.getElementById("sender-panel").innerHTML = senderContent;
+
+  // Update network
+  const networkContent = getPanelContent("network", stageData.network);
+  document.getElementById("network-panel").innerHTML = networkContent;
+
+  // Update volunteer
+  const volunteerContent = getPanelContent(
+    "volunteer",
+    stageData.volunteer,
+  );
+  document.getElementById("volunteer-panel").innerHTML = volunteerContent;
+
+  // Signal animations
+  animateSignalFlow();
+}
+
+function getPanelContent(panel, state) {
+  const contents = {
+    // Sender states (abbreviated)
+    sender: {
+      "sos-ready": `
+        <div class="status-idle">
+          <div class="status-icon">📱</div>
+          <h3>Sender Ready</h3>
+          <p>Awaiting emergency</p>
+          <button class="sos-button" onclick="simulateSenderSOS()">🚨 SOS</button>
+        </div>
+      `,
+      "sos-sent": `
+        <div class="setup-hero">
+          <h3>✅ SOS SENT</h3>
+          <p>Broadcast to volunteers</p>
+          <button class="safe-button" onclick="nextSenderStage()">I'm SAFE</button>
+        </div>
+      `,
+      "waiting-help": `
+        <div class="setup-hero">
+          <h3>⏳ Waiting</h3>
+          <p>Volunteers notified</p>
+          <div class="signal-pulse"></div>
+        </div>
+      `,
+      "volunteer-responding": `
+        <div class="setup-hero">
+          <h3>🦸 Help Arriving</h3>
+          <p>Volunteer connected</p>
+          <button class="safe-button" onclick="resolveEmergency()">Mark SAFE</button>
+        </div>
+      `,
+      safe: `
+        <div class="setup-hero">
+          <h3>✅ EMERGENCY RESOLVED</h3>
+          <p>Session closed</p>
+        </div>
+      `,
+      "crowd-ready": `
+        <div class="status-idle">
+          <div class="status-icon">👥</div>
+          <h3>Crowd Reporter</h3>
+          <p>Ready to report</p>
+          <button class="sos-button" onclick="simulateCrowdReport()" style="background: var(--warning);">📢 Report</button>
+        </div>
+      `,
+      "crowd-sent": `
+        <div class="setup-hero">
+          <h3>✅ Report Sent</h3>
+          <p>Added to community feed</p>
+        </div>
+      `,
+    },
+    // Network states (abbreviated)
+    network: {
+      idle: `<div class="status-idle"><div class="network-icon">🌐</div><h3>HumanNet Core</h3><p>System idle</p></div>`,
+      received: `<div class="setup-hero"><div class="signal-pulse"></div><h3>📥 Alert Received</h3><p>Validating sender location</p></div>`,
+      processing: `<div class="setup-hero" style="color: var(--accent);"><h3>🔄 Processing</h3><p>Checking nearby volunteers</p></div>`,
+      broadcasting: `<div class="setup-hero" style="color: var(--accent);"><h3>📤 Broadcasting</h3><p>To 23 nearby volunteers</p><div class="signal-pulse"></div></div>`,
+      "response-active": `<div class="setup-hero" style="color: var(--success);"><h3>✅ Response Active</h3><p>3 Guiders assigned</p></div>`,
+      resolved: `<div class="setup-hero" style="color: var(--success);"><h3>🏁 Session Closed</h3><p>Data auto-deleted</p></div>`,
+      "crowd-received": `<div class="setup-hero" style="color: var(--warning);"><h3>📢 Crowd Report</h3><p>Added to awareness feed</p></div>`,
+    },
+    // Volunteer states
+    volunteer: {
+      idle: `<div class="status-idle"><div class="status-icon">🦸</div><h3>Volunteer Ready</h3><p>No active alerts</p></div>`,
+      "alert-received": `
+        <div class="alert-active">
+          <h3>🚨 EMERGENCY ALERT</h3>
+          <p>SOS - Medical</p>
+          <p style="font-size: 0.9rem; opacity: 0.8;">Nearby sender needs help</p>
+          <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+            <button class="btn" style="flex: 1; background: var(--success); font-weight: bold; padding: 0.8rem;" onclick="volunteerAccept()">✅ Accept</button>
+            <button class="btn btn-secondary" style="flex: 1; padding: 0.8rem;" onclick="volunteerDecline()">❌ Decline</button>
+          </div>
+        </div>
+      `,
+      responding: `
+        <div class="status-responding">
+          <h3>✅ RESPONDING</h3>
+          <p>Guider #1</p>
+          <p style="font-size: 0.9rem; opacity: 0.8;">VoIP connected</p>
+        </div>
+      `,
+      completed: `<div class="setup-hero" style="color: var(--success);"><h3>✅ Session Complete</h3><p>Emergency resolved</p></div>`,
+      awareness: `<div class="setup-hero" style="color: var(--warning);"><h3>📢 Community Alert</h3><p>Crowd report nearby</p></div>`,
+    },
+  };
+  return contents[panel][state] || contents[panel].idle;
+}
+
+function resetSimulation() {
+  document.querySelectorAll(".device-screen").forEach((screen) => {
+    screen.innerHTML =
+      screen.querySelector(".status-idle")?.outerHTML ||
+      getPanelContent(screen.id.replace("-panel", ""), "idle");
+  });
+}
+
+function animateSignalFlow() {
+  const arrows = document.querySelectorAll(".flow-arrow");
+  arrows.forEach((arrow, i) => {
+    setTimeout(() => {
+      arrow.classList.add("active");
+      setTimeout(() => arrow.classList.remove("active"), 3000);
+    }, i * 500);
+  });
+}
+
+// Simulation onclick handlers
+function simulateSenderSOS() { runSimulation("sos"); }
+function nextSenderStage() { updateSimulationStage(simStages.sos[5]); }
+function volunteerAccept() {
+  document.getElementById("volunteer-panel").innerHTML = getPanelContent("volunteer", "responding");
+}
+function volunteerDecline() {
+  document.getElementById("volunteer-panel").innerHTML = getPanelContent("volunteer", "idle");
+}
+
+// General event listeners
+function setupEventListeners() {
+  setupForms();
+}
+
+// Export for use in HTML inline if needed
+window.HumanNet = {
+  loadData,
+  saveData,
+  sendEmergencyAlert,
+  submitCrowdReport,
+  acceptResponse,
+  updateFeed
+};
+
 function setupSimulation() {
-  document.getElementById('simulate-emergency').addEventListener('click', simulateEmergency);
-  document.getElementById('simulate-response').addEventListener('click', simulateResponse);
-  document.getElementById('simulate-crowd').addEventListener('click', simulateCrowd);
+  document.getElementById('simulate-emergency')?.addEventListener('click', simulateEmergency);
+  document.getElementById('simulate-response')?.addEventListener('click', simulateResponse);
+  document.getElementById('simulate-crowd')?.addEventListener('click', simulateCrowd);
 }
 
 function simulateEmergency() {
@@ -285,6 +641,8 @@ function simulateCrowd() {
 
 function animateFlow(sequence, title) {
   const container = document.querySelector('.simulation-container');
+  if (!container) return;
+  
   container.innerHTML = `<h3 style="position: absolute; top: 20px; left: 50%; transform: translateX(-50%);">${title}</h3>`;
   
   const nodes = {
@@ -317,7 +675,7 @@ function createArrow(fromNode, toPos) {
   const contRect = document.querySelector('.simulation-container').getBoundingClientRect();
   const startX = (rect.left - contRect.left + rect.width / 2) / contRect.width * 100;
   const startY = (rect.top - contRect.top + rect.height) / contRect.height * 100;
-  const endX = parseFloat(toPos.left) + 2; // approx center
+  const endX = parseFloat(toPos.left) + 2;
   const endY = parseFloat(toPos.top);
   
   arrow.style.left = startX + '%';
@@ -327,19 +685,3 @@ function createArrow(fromNode, toPos) {
   
   document.querySelector('.simulation-container').appendChild(arrow);
 }
-
-// General event listeners
-function setupEventListeners() {
-  setupForms();
-  if (document.querySelector('.dashboard')) setupDashboard();
-}
-
-// Export for use in HTML inline if needed
-window.HumanNet = {
-  loadData,
-  saveData,
-  sendEmergencyAlert,
-  submitCrowdReport,
-  acceptResponse,
-  updateFeed
-};

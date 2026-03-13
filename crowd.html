@@ -20,46 +20,18 @@
       </nav>
     </header>
 
-    <section class="hero" style="text-align: center">
+    <section class="hero crowd-hero">
       <h1>📢 Crowd Reporter</h1>
       <p>Report public safety issues to alert the community.</p>
     </section>
 
     <section class="section">
-      <div style="text-align: center; padding: 4rem 2rem">
+      <div class="sos-container">
         <h2 style="margin-bottom: 2rem; color: var(--warning)">Report Issue</h2>
-        <p
-          style="
-            margin-bottom: 3rem;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            color: var(--text-secondary);
-          "
-        >
-          Settings from setup.html. Click to report.
-        </p>
-        <button
-          id="crowd-btn"
-          class="btn"
-          style="
-            width: 250px;
-            height: 250px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--warning), #cc8800);
-            font-size: 2.5rem;
-            font-weight: bold;
-            box-shadow: 0 20px 60px rgba(255, 170, 0, 0.4);
-            border: none;
-          "
-        >
-          📢 REPORT
-        </button>
+        <p class="setup-card">Settings from setup.html. Click to report.</p>
+        <button id="crowd-btn" class="btn crowd-btn-big">📢 REPORT</button>
       </div>
-      <p
-        class="card"
-        style="max-width: 500px; margin: 2rem auto 0; text-align: center"
-      >
+      <p class="card crowd-card-info">
         Reports appear in <strong>feed.html</strong> instantly.
       </p>
     </section>
@@ -76,12 +48,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
-      document
-        .getElementById("crowd-btn")
-        .addEventListener("click", function () {
-          sendCrowdReport();
-        });
-    </script>
   </body>
 </html>

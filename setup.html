@@ -20,13 +20,13 @@
       </nav>
     </header>
 
-    <section class="hero" style="text-align: center">
+    <section class="hero setup-hero">
       <h1>⚙️ Quick Setup</h1>
       <p>Enter details for simulation (saved to session)</p>
     </section>
 
     <section class="section">
-      <div class="card" style="max-width: 400px; margin: 0 auto">
+      <div class="card setup-card">
         <form id="setup-form">
           <div class="form-group">
             <label>Name</label>
@@ -41,50 +41,14 @@
           </button>
         </form>
       </div>
-      <div style="max-width: 600px; margin: 3rem auto 0">
-        <h2 style="text-align: center; margin-bottom: 2rem">
-          Choose Simulation
-        </h2>
-        <div style="display: flex; gap: 1rem; flex-direction: column">
-          <a
-            href="sender.html"
-            class="btn"
-            style="
-              height: 60px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-size: 1.2rem;
-            "
-          >
-            🚨 Sender SOS
-          </a>
-          <a
-            href="receiver.html"
-            class="btn btn-secondary"
-            style="
-              height: 60px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-size: 1.2rem;
-            "
-          >
+      <div class="simulation-controls-info">
+        <h2 class="simulation-choose-section">Choose Simulation</h2>
+        <div class="simulation-choices">
+          <a href="sender.html" class="btn large-btn"> 🚨 Sender SOS </a>
+          <a href="receiver.html" class="btn btn-secondary large-btn">
             🦸 Receiver Alert
           </a>
-          <a
-            href="crowd.html"
-            class="btn"
-            style="
-              height: 60px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              font-size: 1.2rem;
-            "
-          >
-            📢 Crowd Report
-          </a>
+          <a href="crowd.html" class="btn large-btn"> 📢 Crowd Report </a>
         </div>
       </div>
     </section>
@@ -101,17 +65,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
-      document
-        .getElementById("setup-form")
-        .addEventListener("submit", function (e) {
-          e.preventDefault();
-          const settings = {
-            name: document.getElementById("name").value,
-            location: document.getElementById("location").value,
-          };
-          sessionStorage.setItem("humanNetSettings", JSON.stringify(settings));
-        });
-    </script>
   </body>
 </html>

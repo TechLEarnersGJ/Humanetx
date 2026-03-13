@@ -20,56 +20,28 @@
       </nav>
     </header>
 
-    <section class="hero" style="text-align: center">
+    <section class="hero sender-hero">
       <h1>🚨 Emergency Sender</h1>
       <p>Simulate sending an SOS alert to the HumanNet network.</p>
     </section>
 
     <section class="section">
-      <div class="sos-container" style="text-align: center; padding: 4rem 2rem">
+      <div class="sos-container">
         <h2 style="margin-bottom: 2rem; color: var(--danger)">
           Ready to send SOS?
         </h2>
-        <p
-          style="
-            margin-bottom: 3rem;
-            max-width: 400px;
-            margin-left: auto;
-            margin-right: auto;
-            color: var(--text-secondary);
-          "
-        >
+        <p class="setup-card">
           Settings from setup.html will be used. Click to broadcast emergency.
         </p>
-        <button
-          id="sos-btn"
-          class="btn"
-          style="
-            width: 300px;
-            height: 300px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--danger), #cc0000);
-            font-size: 3rem;
-            font-weight: bold;
-            box-shadow: 0 20px 60px rgba(255, 68, 68, 0.4);
-            border: none;
-          "
-        >
-          🚨 SOS
-        </button>
-        <p style="margin-top: 2rem; color: var(--text-secondary)">
+        <button id="sos-btn" class="btn sos-btn-big">🚨 SOS</button>
+        <p class="setup-card">
           Check <a href="feed.html">Live Feed</a> and
           <a href="receiver.html">Receiver</a>
         </p>
       </div>
       <p
-        class="card"
-        style="
-          max-width: 500px;
-          margin: 2rem auto 0;
-          text-align: center;
-          background: rgba(255, 68, 68, 0.1);
-        "
+        class="card crowd-card-info"
+        style="background: rgba(255, 68, 68, 0.1)"
       >
         ⚠️ This simulation saves data locally and broadcasts to
         <strong>feed.html</strong> and <strong>receiver.html</strong>.
@@ -88,10 +60,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
-      document.getElementById("sos-btn").addEventListener("click", function () {
-        sendEmergencySOS();
-      });
-    </script>
   </body>
 </html>

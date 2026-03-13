@@ -38,31 +38,5 @@
     </footer>
 
     <script src="script.js"></script>
-    <script>
-      // Dashboard specific
-      function setupDashboard() {
-        const roleRadios = document.querySelectorAll('input[name="role"]');
-        roleRadios.forEach((radio) => {
-          radio.addEventListener("change", function () {
-            const link = document.getElementById("role-link");
-            const text = document.getElementById("role-link-text");
-            const roleLinks = {
-              sender: { href: "sender.html", text: "Go to Sender Simulation" },
-              receiver: {
-                href: "receiver.html",
-                text: "Go to Receiver Simulation",
-              },
-              crowd: { href: "crowd.html", text: "Go to Crowd Report" },
-            };
-            if (roleLinks[this.value]) {
-              link.href = roleLinks[this.value].href;
-              link.textContent = roleLinks[this.value].text;
-              text.style.display = "none";
-            }
-          });
-        });
-      }
-      setupDashboard();
-    </script>
   </body>
 </html>
