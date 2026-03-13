@@ -112,12 +112,6 @@
           };
           sessionStorage.setItem("humanNetSettings", JSON.stringify(settings));
         });
-      // Load nav
-      fetch("nav.html")
-        .then((r) => r.text())
-        .then((html) => {
-          document.body.insertAdjacentHTML("afterbegin", html);
-        });
     </script>
   </body>
 </html>
