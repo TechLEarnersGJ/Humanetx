@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Learn HumanNet</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">HumanNet</div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="learn.html">Learn</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="feed.html">Live Feed</a></li>
+          <li><a href="simulation.html">Simulation</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="hero" style="text-align: center; min-height: 60vh">
+      <h1>Learn HumanNet</h1>
+      <p>
+        Understand the architecture and flow of the decentralized safety
+        network.
+      </p>
+    </section>
+
+    <section class="section">
+      <h2>HumanNet Concept</h2>
+      <div class="card" style="max-width: 800px; margin: 0 auto 4rem">
+        <p>
+          <strong>Community-powered emergency response</strong>: When danger
+          strikes, HumanNet instantly notifies nearby volunteers. First 3
+          responders become Guiders who coordinate via VoIP/chat. Others join as
+          support. Data auto-deletes after resolution. Focus on golden hour
+          (first 60 min).
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>Network Actors</h2>
+      <div class="grid">
+        <div class="card">
+          <h3>📱 Sender</h3>
+          <p>
+            Person in danger triggers SOS. Shares name, GPS, type. Triggers
+            network broadcast.
+          </p>
+        </div>
+        <div class="card">
+          <h3>🦸 Receiver (Volunteer)</h3>
+          <p>
+            Nearby users receive alerts. First 3: Guiders (lead response).
+            Others assist.
+          </p>
+        </div>
+        <div class="card">
+          <h3>👥 Crowd Reporter</h3>
+          <p>
+            Bystanders report public issues (fire, flood). Broadcasts to all
+            nearby.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2>System Flow</h2>
+      <div
+        class="simulation-container"
+        style="height: 300px; margin: 2rem auto; max-width: 800px"
+      >
+        <div class="sim-node" style="left: 5%; top: 50%">SENDER</div>
+        <div class="sim-node" style="left: 30%; top: 50%">HUMANNET</div>
+        <div class="sim-node" style="left: 55%; top: 50%">VOLS</div>
+        <div class="sim-node" style="left: 80%; top: 50%">RESPONSE</div>
+      </div>
+      <div class="card" style="max-width: 800px; margin: 0 auto">
+        <p>
+          <strong>Flow</strong>: SOS → Network Broadcast → Nearby Volunteers
+          Alerted → Guiders Coordinate (VoIP) → Physical Response → SAFE → Data
+          Deleted.
+        </p>
+      </div>
+    </section>
+    <footer class="site-footer">
+      <blockquote class="footer-quote">
+        "When someone faces danger, help should emerge from the people around
+        them."
+      </blockquote>
+      <p class="footer-author">— HumanNet Vision</p>
+      <p class="footer-note">
+        <strong>This is a simulation preview.</strong> Full system coming soon.
+      </p>
+      <p class="footer-credit">Open source | Pure HTML/CSS/JS demo</p>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

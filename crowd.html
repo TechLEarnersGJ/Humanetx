@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Crowd Report - HumanNet</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">HumanNet</div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="learn.html">Learn</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="feed.html">Live Feed</a></li>
+          <li><a href="simulation.html">Simulation</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="hero" style="text-align: center">
+      <h1>📢 Crowd Reporter</h1>
+      <p>Report public safety issues to alert the community.</p>
+    </section>
+
+    <section class="section">
+      <div style="text-align: center; padding: 4rem 2rem">
+        <h2 style="margin-bottom: 2rem; color: var(--warning)">Report Issue</h2>
+        <p
+          style="
+            margin-bottom: 3rem;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            color: var(--text-secondary);
+          "
+        >
+          Settings from setup.html. Click to report.
+        </p>
+        <button
+          id="crowd-btn"
+          class="btn"
+          style="
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--warning), #cc8800);
+            font-size: 2.5rem;
+            font-weight: bold;
+            box-shadow: 0 20px 60px rgba(255, 170, 0, 0.4);
+            border: none;
+          "
+        >
+          📢 REPORT
+        </button>
+      </div>
+      <p
+        class="card"
+        style="max-width: 500px; margin: 2rem auto 0; text-align: center"
+      >
+        Reports appear in <strong>feed.html</strong> instantly.
+      </p>
+    </section>
+    <footer class="site-footer">
+      <blockquote class="footer-quote">
+        "When someone faces danger, help should emerge from the people around
+        them."
+      </blockquote>
+      <p class="footer-author">— HumanNet Vision</p>
+      <p class="footer-note">
+        <strong>This is a simulation preview.</strong> Full system coming soon.
+      </p>
+      <p class="footer-credit">Open source | Pure HTML/CSS/JS demo</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+      document
+        .getElementById("crowd-btn")
+        .addEventListener("click", function () {
+          sendCrowdReport();
+        });
+    </script>
+  </body>
+</html>

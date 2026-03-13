@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - HumanNet</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">HumanNet</div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="learn.html">Learn</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="feed.html">Live Feed</a></li>
+          <li><a href="simulation.html">Simulation</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <p
+      style="text-align: center; color: var(--text-secondary); margin-top: 2rem"
+    >
+      Use <a href="setup.html">Setup</a> for simulation config instead.
+    </p>
+    <footer class="site-footer">
+      <blockquote class="footer-quote">
+        "When someone faces danger, help should emerge from the people around
+        them."
+      </blockquote>
+      <p class="footer-author">— HumanNet Vision</p>
+      <p class="footer-note">
+        <strong>This is a simulation preview.</strong> Full system coming soon.
+      </p>
+      <p class="footer-credit">Open source | Pure HTML/CSS/JS demo</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+      // Dashboard specific
+      function setupDashboard() {
+        const roleRadios = document.querySelectorAll('input[name="role"]');
+        roleRadios.forEach((radio) => {
+          radio.addEventListener("change", function () {
+            const link = document.getElementById("role-link");
+            const text = document.getElementById("role-link-text");
+            const roleLinks = {
+              sender: { href: "sender.html", text: "Go to Sender Simulation" },
+              receiver: {
+                href: "receiver.html",
+                text: "Go to Receiver Simulation",
+              },
+              crowd: { href: "crowd.html", text: "Go to Crowd Report" },
+            };
+            if (roleLinks[this.value]) {
+              link.href = roleLinks[this.value].href;
+              link.textContent = roleLinks[this.value].text;
+              text.style.display = "none";
+            }
+          });
+        });
+      }
+      setupDashboard();
+    </script>
+  </body>
+</html>

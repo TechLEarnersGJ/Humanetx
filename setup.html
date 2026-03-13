@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Setup - HumanNet Simulation</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">HumanNet</div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="learn.html">Learn</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="feed.html">Live Feed</a></li>
+          <li><a href="simulation.html">Simulation</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="hero" style="text-align: center">
+      <h1>⚙️ Quick Setup</h1>
+      <p>Enter details for simulation (saved to session)</p>
+    </section>
+
+    <section class="section">
+      <div class="card" style="max-width: 400px; margin: 0 auto">
+        <form id="setup-form">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" id="name" placeholder="John Doe" />
+          </div>
+          <div class="form-group">
+            <label>Location</label>
+            <input type="text" id="location" placeholder="City Center" />
+          </div>
+          <button type="submit" class="btn" style="width: 100%">
+            Save &amp; Start Simulation
+          </button>
+        </form>
+      </div>
+      <div style="max-width: 600px; margin: 3rem auto 0">
+        <h2 style="text-align: center; margin-bottom: 2rem">
+          Choose Simulation
+        </h2>
+        <div style="display: flex; gap: 1rem; flex-direction: column">
+          <a
+            href="sender.html"
+            class="btn"
+            style="
+              height: 60px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 1.2rem;
+            "
+          >
+            🚨 Sender SOS
+          </a>
+          <a
+            href="receiver.html"
+            class="btn btn-secondary"
+            style="
+              height: 60px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 1.2rem;
+            "
+          >
+            🦸 Receiver Alert
+          </a>
+          <a
+            href="crowd.html"
+            class="btn"
+            style="
+              height: 60px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              font-size: 1.2rem;
+            "
+          >
+            📢 Crowd Report
+          </a>
+        </div>
+      </div>
+    </section>
+    <footer class="site-footer">
+      <blockquote class="footer-quote">
+        "When someone faces danger, help should emerge from the people around
+        them."
+      </blockquote>
+      <p class="footer-author">— HumanNet Vision</p>
+      <p class="footer-note">
+        <strong>This is a simulation preview.</strong> Full system coming soon.
+      </p>
+      <p class="footer-credit">Open source | Pure HTML/CSS/JS demo</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+      document
+        .getElementById("setup-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          const settings = {
+            name: document.getElementById("name").value,
+            location: document.getElementById("location").value,
+          };
+          sessionStorage.setItem("humanNetSettings", JSON.stringify(settings));
+        });
+      // Load nav
+      fetch("nav.html")
+        .then((r) => r.text())
+        .then((html) => {
+          document.body.insertAdjacentHTML("afterbegin", html);
+        });
+    </script>
+  </body>
+</html>

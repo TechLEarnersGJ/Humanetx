@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Live Multi-Device Simulation - HumanNet</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">HumanNet</div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="learn.html">Learn</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="feed.html">Live Feed</a></li>
+          <li><a href="simulation.html">Simulation</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="hero" style="padding: 4rem 2rem; text-align: center">
+      <h1 style="font-size: 3.5rem; margin-bottom: 1rem">
+        Live Multi-Device Simulation
+      </h1>
+      <p
+        style="
+          font-size: 1.4rem;
+          color: var(--text-secondary);
+          max-width: 800px;
+          margin: 0 auto;
+        "
+      >
+        Three phone screens + HumanNet core showing real-time emergency response
+        flow
+      </p>
+    </section>
+
+    <section class="section" style="padding: 1rem 2rem">
+      <div
+        id="devices-container"
+        style="
+          display: flex;
+          justify-content: center;
+          gap: 3rem;
+          flex-wrap: wrap;
+          max-width: 1600px;
+          margin: 0 auto;
+        "
+      >
+        <!-- Sender Device -->
+        <div class="device-container sender-device" data-panel="sender">
+          <div class="device-bezel">
+            <div class="device-screen" id="sender-panel">
+              <div class="status-idle">
+                <div class="status-icon">📱</div>
+                <h3>Sender Phone</h3>
+                <p>Tap SOS to start simulation</p>
+                <button class="sos-button" id="sos-btn">🚨 SOS</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Network Core -->
+        <div class="device-container network-core" data-panel="network">
+          <div class="device-bezel network-bezel">
+            <div class="device-screen" id="network-panel">
+              <div class="status-idle">
+                <div class="status-icon network-icon">🌐</div>
+                <h3>HumanNet Core</h3>
+                <p>Waiting for incoming alert</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Volunteer Device -->
+        <div class="device-container volunteer-device" data-panel="volunteer">
+          <div class="device-bezel">
+            <div class="device-screen" id="volunteer-panel">
+              <div class="status-idle">
+                <div class="status-icon">🦸</div>
+                <h3>Volunteer Phone</h3>
+                <p>Ready to help nearby</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Flow Indicators -->
+      <div class="flow-indicators">
+        <div class="flow-arrow" id="arrow1"></div>
+        <div class="flow-arrow" id="arrow2"></div>
+      </div>
+
+      <!-- Controls -->
+      <div style="text-align: center; margin: 4rem 0">
+        <button
+          id="sim-sos"
+          class="btn"
+          style="
+            font-size: 1.8rem;
+            padding: 1.5rem 3rem;
+            margin-right: 2rem;
+            background: linear-gradient(135deg, var(--danger), #cc0000);
+          "
+        >
+          🚨 Simulate SOS
+        </button>
+        <button
+          id="sim-crowd"
+          class="btn"
+          style="
+            font-size: 1.8rem;
+            padding: 1.5rem 3rem;
+            background: linear-gradient(135deg, var(--warning), #cc8800);
+          "
+        >
+          📢 Simulate Crowd Report
+        </button>
+        <button
+          id="reset-sim"
+          class="btn btn-secondary"
+          style="font-size: 1.2rem; padding: 1rem 2rem"
+        >
+          🔄 Reset
+        </button>
+      </div>
+    </section>
+    <footer class="site-footer">
+      <blockquote class="footer-quote">
+        "When someone faces danger, help should emerge from the people around
+        them."
+      </blockquote>
+      <p class="footer-author">— HumanNet Vision</p>
+      <p class="footer-note">
+        <strong>This is a simulation preview.</strong> Full system coming soon.
+      </p>
+      <p class="footer-credit">Open source | Pure HTML/CSS/JS demo</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+      // Load nav
+      fetch("nav.html")
+        .then((r) => r.text())
+        .then((html) => {
+          document.body.insertAdjacentHTML("afterbegin", html);
+        });
+
+      // Enhanced styles for professional look
+      const simStyle = document.createElement("style");
+      simStyle.textContent = `
+      /* Device styling */
+      .device-container { perspective: 1000px; }
+      .device-bezel {
+        width: 340px; height: 680px; margin: 0 auto;
+        background: linear-gradient(145deg, #1a1a1a, #0d0d0d);
+        border-radius: 40px; position: relative;
+        box-shadow: 0 30px 80px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.1);
+        padding: 20px 20px 60px;
+      }
+      .network-bezel { height: 720px; background: linear-gradient(145deg, var(--accent), #00aaff); box-shadow: 0 30px 80px rgba(0,212,255,0.3); }
+      .device-screen {
+        width: 300px; height: 100%; background: #111; border-radius: 30px;
+        overflow: hidden; position: relative;
+        box-shadow: inset 0 0 40px rgba(0,0,0,0.8), 0 0 30px rgba(0,0,0,0.5);
+      }
+      
+      /* Status states */
+      .status-idle { text-align: center; padding-top: 3rem; color: var(--text-secondary); }
+      .status-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.7; }
+      .network-icon { background: rgba(255,255,255,0.1); border-radius: 50%; width: 80px; height: 80px; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2rem; }
+      
+      .sos-button {
+        position: absolute; bottom: 4rem; left: 50%; transform: translateX(-50%);
+        width: 140px; height: 140px; border-radius: 50%; background: linear-gradient(135deg, var(--danger), #cc0000);
+        border: 6px solid rgba(255,255,255,0.2); color: white; font-size: 1.8rem; font-weight: 800;
+        cursor: pointer; transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+        box-shadow: 0 20px 40px rgba(255,68,68,0.4), inset 0 2px 0 rgba(255,255,255,0.2);
+      }
+      .sos-button:hover { transform: translateX(-50%) translateY(-5px); box-shadow: 0 25px 50px rgba(255,68,68,0.5); }
+      .sos-button:active { transform: translateX(-50%) scale(0.95); }
+      
+      .safe-button { position: absolute; bottom: 4rem; left: 50%; transform: translateX(-50%); width: 220px; padding: 1.2rem; border-radius: 50px; background: linear-gradient(135deg, var(--success), #33cc33); border: none; color: white; font-size: 1.3rem; font-weight: 600; cursor: pointer; box-shadow: 0 15px 30px rgba(68,255,68,0.4); }
+      
+      /* Alert states */
+      .alert-active { animation: alertPulse 1s infinite; }
+      .status-responding { background: linear-gradient(135deg, rgba(68,255,68,0.2), rgba(68,255,68,0.1)) !important; }
+      
+      @keyframes alertPulse { 0%, 100% { box-shadow: inset 0 0 30px rgba(255,68,68,0.6); } 50% { box-shadow: inset 0 0 60px rgba(255,68,68,0.9); } }
+      
+      /* Flow indicators */
+      .flow-indicators { position: absolute; top: 50%; left: 0; right: 0; height: 4px; pointer-events: none; z-index: 10; }
+      .flow-arrow {
+        position: absolute; height: 4px; background: linear-gradient(90deg, transparent, var(--accent), transparent); opacity: 0; transition: opacity 0.5s, transform 3s;
+      }
+      .flow-arrow.active { opacity: 1; transform: scaleX(1); }
+      
+      /* Responsive */
+      @media (max-width: 1200px) { #devices-container { flex-direction: column; gap: 2rem; } }
+      
+      /* Signal pulse */
+      .signal-pulse { position: absolute; width: 100%; height: 100%; background: radial-gradient(circle, var(--accent) 0%, transparent 70%); animation: signalPulse 2s infinite; pointer-events: none; }
+      @keyframes signalPulse { 0% { transform: scale(0); opacity: 1; } 100% { transform: scale(3); opacity: 0; } }
+    `;
+      document.head.appendChild(simStyle);
+
+      let currentSim = null;
+      const simStages = {
+        sos: [
+          { sender: "sos-ready", network: "idle", volunteer: "idle" },
+          { sender: "sos-sent", network: "received", volunteer: "idle" },
+          { sender: "waiting-help", network: "processing", volunteer: "idle" },
+          {
+            sender: "waiting-help",
+            network: "broadcasting",
+            volunteer: "alert-received",
+          },
+          {
+            sender: "volunteer-responding",
+            network: "response-active",
+            volunteer: "responding",
+          },
+          { sender: "safe", network: "resolved", volunteer: "completed" },
+        ],
+        crowd: [
+          { sender: "crowd-ready", network: "idle", volunteer: "idle" },
+          {
+            sender: "crowd-sent",
+            network: "crowd-received",
+            volunteer: "awareness",
+          },
+        ],
+      };
+
+      // Controls
+      document.getElementById("sim-sos").onclick = () => runSimulation("sos");
+      document.getElementById("sim-crowd").onclick = () =>
+        runSimulation("crowd");
+      document.getElementById("reset-sim").onclick = resetSimulation;
+
+      function runSimulation(type) {
+        currentSim = type;
+        let stage = 0;
+        const interval = setInterval(() => {
+          if (stage >= simStages[type].length) {
+            clearInterval(interval);
+            return;
+          }
+          updateSimulationStage(simStages[type][stage]);
+          stage++;
+        }, 1500);
+      }
+
+      function updateSimulationStage(stageData) {
+        // Update sender panel
+        const senderContent = getPanelContent("sender", stageData.sender);
+        document.getElementById("sender-panel").innerHTML = senderContent;
+
+        // Update network
+        const networkContent = getPanelContent("network", stageData.network);
+        document.getElementById("network-panel").innerHTML = networkContent;
+
+        // Update volunteer
+        const volunteerContent = getPanelContent(
+          "volunteer",
+          stageData.volunteer,
+        );
+        document.getElementById("volunteer-panel").innerHTML = volunteerContent;
+
+        // Signal animations
+        animateSignalFlow();
+      }
+
+      function getPanelContent(panel, state) {
+        const contents = {
+          // Sender states
+          sender: {
+            "sos-ready": `
+            <div class="status-idle">
+              <div class="status-icon">📱</div>
+              <h3>Sender Ready</h3>
+              <p>Awaiting emergency</p>
+              <button class="sos-button" onclick="simulateSenderSOS()">🚨 SOS</button>
+            </div>
+          `,
+            "sos-sent": `
+            <div style="text-align: center; color: var(--accent); padding-top: 2rem;">
+              <h3>✅ SOS SENT</h3>
+              <p>Broadcast to volunteers</p>
+              <button class="safe-button" onclick="nextSenderStage()">I'm SAFE</button>
+            </div>
+          `,
+            "waiting-help": `
+            <div style="text-align: center; color: var(--warning); padding-top: 2rem;">
+              <h3>⏳ Waiting</h3>
+              <p>Volunteers notified</p>
+              <div class="signal-pulse"></div>
+            </div>
+          `,
+            "volunteer-responding": `
+            <div style="text-align: center; color: var(--success); padding-top: 2rem;">
+              <h3>🦸 Help Arriving</h3>
+              <p>Volunteer connected</p>
+              <button class="safe-button" onclick="resolveEmergency()">Mark SAFE</button>
+            </div>
+          `,
+            safe: `
+            <div style="text-align: center; color: var(--success);">
+              <h3>✅ EMERGENCY RESOLVED</h3>
+              <p>Session closed</p>
+            </div>
+          `,
+            "crowd-ready": `
+            <div class="status-idle">
+              <div class="status-icon">👥</div>
+              <h3>Crowd Reporter</h3>
+              <p>Ready to report</p>
+              <button class="sos-button" onclick="simulateCrowdReport()" style="background: var(--warning);">📢 Report</button>
+            </div>
+          `,
+            "crowd-sent": `
+            <div style="text-align: center; color: var(--warning); padding-top: 2rem;">
+              <h3>✅ Report Sent</h3>
+              <p>Added to community feed</p>
+            </div>
+          `,
+          },
+          // Network states (abbreviated for brevity)
+          network: {
+            idle: `<div class="status-idle"><div class="status-icon network-icon">🌐</div><h3>HumanNet Core</h3><p>System idle</p></div>`,
+            received: `<div style="text-align: center;"><div class="signal-pulse"></div><h3>📥 Alert Received</h3><p>Validating sender location</p></div>`,
+            processing: `<div style="text-align: center; color: var(--accent);"><h3>🔄 Processing</h3><p>Checking nearby volunteers</p></div>`,
+            broadcasting: `<div style="text-align: center; color: var(--accent);"><h3>📤 Broadcasting</h3><p>To 23 nearby volunteers</p><div class="signal-pulse"></div></div>`,
+            "response-active": `<div style="text-align: center; color: var(--success);"><h3>✅ Response Active</h3><p>3 Guiders assigned</p></div>`,
+            resolved: `<div style="text-align: center; color: var(--success);"><h3>🏁 Session Closed</h3><p>Data auto-deleted</p></div>`,
+            "crowd-received": `<div style="text-align: center; color: var(--warning);"><h3>📢 Crowd Report</h3><p>Added to awareness feed</p></div>`,
+          },
+          // Volunteer states
+          volunteer: {
+            idle: `<div class="status-idle"><div class="status-icon">🦸</div><h3>Volunteer Ready</h3><p>No active alerts</p></div>`,
+            "alert-received": `
+            <div class="alert-active" style="padding: 1rem; color: var(--danger);">
+              <h3 style="margin-bottom: 1rem;">🚨 EMERGENCY ALERT</h3>
+              <p>SOS - Medical</p>
+              <p style="font-size: 0.9rem; opacity: 0.8;">Nearby sender needs help</p>
+              <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                <button class="btn" style="flex: 1; background: var(--success); font-weight: bold; padding: 0.8rem;" onclick="volunteerAccept()">✅ Accept</button>
+                <button class="btn btn-secondary" style="flex: 1; padding: 0.8rem;" onclick="volunteerDecline()">❌ Decline</button>
+              </div>
+            </div>
+          `,
+            responding: `
+            <div class="status-responding" style="padding: 1rem; text-align: center;">
+              <h3 style="color: var(--success);">✅ RESPONDING</h3>
+              <p>Guider #1</p>
+              <p style="font-size: 0.9rem; opacity: 0.8;">VoIP connected</p>
+            </div>
+          `,
+            completed: `<div style="text-align: center; color: var(--success); padding: 1rem;"><h3>✅ Session Complete</h3><p>Emergency resolved</p></div>`,
+            awareness: `<div style="text-align: center; color: var(--warning); padding: 1rem;"><h3>📢 Community Alert</h3><p>Crowd report nearby</p></div>`,
+          },
+        };
+        return contents[panel][state] || contents[panel].idle;
+      }
+
+      function resetSimulation() {
+        document.querySelectorAll(".device-screen").forEach((screen) => {
+          screen.innerHTML =
+            screen.querySelector(".status-idle")?.outerHTML ||
+            getPanelContent(screen.id.replace("-panel", ""), "idle");
+        });
+        currentSim = null;
+      }
+
+      function animateSignalFlow() {
+        const arrows = document.querySelectorAll(".flow-arrow");
+        arrows.forEach((arrow, i) => {
+          setTimeout(() => {
+            arrow.classList.add("active");
+            setTimeout(() => arrow.classList.remove("active"), 3000);
+          }, i * 500);
+        });
+      }
+
+      // Global functions for onclick
+      window.simulateSenderSOS = () => runSimulation("sos");
+      window.nextSenderStage = () => updateSimulationStage(simStages.sos[5]);
+      window.volunteerAccept = () => {
+        document.getElementById("volunteer-panel").innerHTML = getPanelContent(
+          "volunteer",
+          "responding",
+        );
+      };
+      window.volunteerDecline = () => {
+        document.getElementById("volunteer-panel").innerHTML = getPanelContent(
+          "volunteer",
+          "idle",
+        );
+      };
+      window.resolveEmergency = resetSimulation;
+    </script>
+  </body>
+</html>

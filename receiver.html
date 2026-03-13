@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Receiver - HumanNet Simulation</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="logo">HumanNet</div>
+        <ul class="nav-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="learn.html">Learn</a></li>
+          <li><a href="setup.html">Setup</a></li>
+          <li><a href="feed.html">Live Feed</a></li>
+          <li><a href="simulation.html">Simulation</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <section class="hero" style="text-align: center">
+      <h1>🦸 Volunteer Receiver</h1>
+      <p>Simulate receiving and responding to emergency alerts.</p>
+    </section>
+
+    <section class="section">
+      <div id="alerts-container" class="grid">
+        <div class="card" style="text-align: center; grid-column: span 2">
+          <p>
+            No active alerts.
+            <a href="sender.html">Simulate an emergency</a> first!
+          </p>
+        </div>
+      </div>
+      <p
+        class="card"
+        style="max-width: 600px; margin: 2rem auto 0; text-align: center"
+      >
+        👆 Alerts appear here from local simulation. Click
+        <strong>ACCEPT RESPONSE</strong> to join as Guider.
+      </p>
+    </section>
+    <footer class="site-footer">
+      <blockquote class="footer-quote">
+        "When someone faces danger, help should emerge from the people around
+        them."
+      </blockquote>
+      <p class="footer-author">— HumanNet Vision</p>
+      <p class="footer-note">
+        <strong>This is a simulation preview.</strong> Full system coming soon.
+      </p>
+      <p class="footer-credit">Open source | Pure HTML/CSS/JS demo</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+      // Load nav first
+      fetch("nav.html")
+        .then((r) => r.text())
+        .then((html) => {
+          document.body.insertAdjacentHTML("afterbegin", html);
+        })
+        .then(() => {
+          // Receiver specific display after DOM ready
+          function displayAlerts() {
+            const container = document.getElementById("alerts-container");
+            const activeAlerts = window.HumanNet.loadData().alerts.filter(
+              (a) => a.status === "active",
+            );
+            if (activeAlerts.length === 0) {
+              container.innerHTML =
+                '<div class="card" style="text-align: center; grid-column: span 2;"><p>No active alerts. <a href="sender.html">Simulate an emergency</a> first!</p></div>';
+              return;
+            }
+            container.innerHTML = activeAlerts
+              .map(
+                (alert) => `
+            <div class="card alert-card">
+              <h3>🚨 ${alert.emergencyType}</h3>
+              <p><strong>${alert.name}</strong></p>
+              <p>📍 ${alert.location}</p>
+              <p>${alert.description}</p>
+              <p style="color: var(--text-secondary); font-size: 0.9rem;">${alert.timestamp}</p>
+              <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                <button class="accept-btn btn" data-alert-id="${alert.id}" style="flex: 1; background: var(--success);">✅ ACCEPT RESPONSE</button>
+                <button class="decline-btn btn btn-secondary" data-alert-id="${alert.id}" style="flex: 1;">❌ DECLINE</button>
+              </div>
+            </div>
+          `,
+              )
+              .join("");
+            // Re-setup buttons
+            document.querySelectorAll(".accept-btn").forEach((btn) => {
+              btn.addEventListener("click", () => {
+                window.HumanNet.acceptResponse(parseInt(btn.dataset.alertId));
+                btn.closest(".card").innerHTML +=
+                  '<p style="color: var(--success); font-weight: bold;">You are now responding!</p>';
+                btn.remove();
+                btn.nextElementSibling?.remove();
+              });
+            });
+            document.querySelectorAll(".decline-btn").forEach((btn) => {
+              btn.addEventListener("click", () => {
+                window.HumanNet.declineResponse(parseInt(btn.dataset.alertId));
+                btn.closest(".card").innerHTML +=
+                  '<p style="color: var(--text-secondary);">Declined.</p>';
+                btn.remove();
+              });
+            });
+          }
+          let lastAlertCount = 0;
+          function checkNewAlerts() {
+            const activeAlerts = window.HumanNet.loadData().alerts.filter(
+              (a) => a.status === "active",
+            );
+            if (activeAlerts.length > lastAlertCount) {
+              playAlertSound();
+              showFullScreenAlert(activeAlerts[activeAlerts.length - 1]);
+              lastAlertCount = activeAlerts.length;
+            }
+            displayAlerts();
+          }
+          setInterval(checkNewAlerts, 1000);
+          checkNewAlerts();
+        });
+    </script>
+  </body>
+</html>
