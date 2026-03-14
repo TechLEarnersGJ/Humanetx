@@ -1,136 +1,315 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>HumanNet - Distributed Human Safety Network</title>
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <header>
-      <nav>
-        <div class="logo">HumanNet</div>
-        <ul class="nav-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="learn.html">Learn</a></li>
-          <li><a href="setup.html">Setup</a></li>
-          <li><a href="feed.html">Live Feed</a></li>
-          <li><a href="simulation.html">Simulation</a></li>
-        </ul>
-      </nav>
-    </header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Humanity Safety | Community-Powered Emergency Response</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <section class="hero">
-      <h1>HumanNet</h1>
+  <!-- ======== Navigation ======== -->
+  <header>
+    <nav>
+      <a href="index.html" class="logo" aria-label="Humanity Safety Home">
+        🛡️ Humanity <span>Safety</span>
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Home</a></li>
+        <li><a href="simulation.html">Live Demo</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- ======== Hero ======== -->
+    <section class="hero" aria-label="Hero">
+      <div class="particles" aria-hidden="true">
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+        <div class="particle"></div>
+      </div>
+
+      <div class="hero-shield" aria-hidden="true">🛡️</div>
+
+      <h1 class="hero-title">
+        Community-Powered<br>
+        <span class="gradient-text">Emergency Response</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        When seconds count, your community responds. An open-source network
+        that transforms isolated emergencies into coordinated community events,
+        activating nearby citizens within the Golden Hour.
+      </p>
+
+      <div class="hero-actions">
+        <a href="simulation.html" class="btn btn-primary btn-lg">Try the Interactive Demo</a>
+        <a href="#how-it-works" class="btn btn-secondary btn-lg">See How It Works</a>
+      </div>
+    </section>
+
+    <!-- ======== Stats Bar ======== -->
+    <div class="stats-bar" aria-label="Key statistics">
+      <div class="stat-item">
+        <span class="stat-value">&lt; 1 min</span>
+        <span class="stat-label">Response Time</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">5 / day</span>
+        <span class="stat-label">Alert Limit</span>
+      </div>
+      <div class="stat-item">
+        <span class="stat-value">100%</span>
+        <span class="stat-label">Open Source</span>
+      </div>
+    </div>
+
+    <!-- ======== Problem Section ======== -->
+    <section class="section" aria-labelledby="problem-heading">
+      <span class="section-label text-center" style="display:block">The Challenge</span>
+      <h2 class="section-title" id="problem-heading">The Problem We Solve</h2>
+      <p class="section-subtitle">
+        Many emergencies escalate because help doesn't arrive quickly enough.
+        We identified three core failures in current emergency response.
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-icon">🔇</div>
+          <h3>Victim Isolation</h3>
+          <p>During emergencies, victims are often surrounded by people who could help but are completely unaware of the situation happening nearby.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">⏱️</div>
+          <h3>The Critical Response Gap</h3>
+          <p>Official emergency services are vital but can take crucial minutes to arrive. The Golden Hour is when immediate help matters most.</p>
+        </div>
+        <div class="card">
+          <div class="card-icon">🔀</div>
+          <h3>Lack of Coordination</h3>
+          <p>Even when people are willing to help, there is no system to coordinate their actions effectively, safely, and without confusion.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Alert Types ======== -->
+    <section class="section" aria-labelledby="alerts-heading">
+      <span class="section-label text-center" style="display:block">Two Ways to Act</span>
+      <h2 class="section-title" id="alerts-heading">Two Types of Alerts</h2>
+      <p class="section-subtitle">
+        Emergencies can be reported by the victim or by a bystander,
+        ensuring no one is left without help.
+      </p>
+
+      <div class="grid-2">
+        <div class="card card--sos">
+          <div class="card-icon">🚨</div>
+          <span class="card-badge card-badge">SOS</span>
+          <h3>Self SOS</h3>
+          <p>Used when you are in danger and need immediate help. One tap broadcasts your name, location, and alert to all nearby volunteers.</p>
+          <ul class="card-list">
+            <li>Direct emergency broadcast</li>
+            <li>GPS location shared instantly</li>
+            <li>WebRTC voice call with Guiders</li>
+            <li>Mark yourself SAFE to end session</li>
+          </ul>
+        </div>
+        <div class="card card--crowd">
+          <div class="card-icon">📢</div>
+          <span class="card-badge">CROWD</span>
+          <h3>Crowd Alert</h3>
+          <p>Used when you witness someone else in danger. Report the incident to the community awareness feed so nearby volunteers can respond.</p>
+          <ul class="card-list">
+            <li>Bystander emergency report</li>
+            <li>Incident added to public feed</li>
+            <li>Community awareness broadcast</li>
+            <li>Responders confirm END to close</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Timeline ======== -->
+    <section class="section" id="how-it-works" aria-labelledby="timeline-heading">
+      <span class="section-label text-center" style="display:block">The Golden Hour</span>
+      <h2 class="section-title" id="timeline-heading">The Response Timeline</h2>
+      <p class="section-subtitle">
+        Every second counts. Our system is designed around the critical first
+        60 minutes of an emergency — the Golden Hour.
+      </p>
+
+      <div class="timeline" role="list">
+        <div class="timeline-item" role="listitem">
+          <div class="timeline-time">0 – 1 Minute</div>
+          <h3>Broadcast Phase</h3>
+          <p>An SOS alert is broadcast to all volunteers within range. Push notifications are sent immediately via the network.</p>
+        </div>
+        <div class="timeline-item" role="listitem">
+          <div class="timeline-time">1 – 3 Minutes</div>
+          <h3>Contact Phase</h3>
+          <p>The first three volunteers become <strong>Guiders</strong>. They establish a secure WebRTC voice call with the victim to provide immediate support.</p>
+        </div>
+        <div class="timeline-item" role="listitem">
+          <div class="timeline-time">3 – 10 Minutes</div>
+          <h3>Coordination Phase</h3>
+          <p>Guiders and <strong>Responders</strong> coordinate via live chat, sharing updates and tracking movement on a shared map in real-time.</p>
+        </div>
+        <div class="timeline-item" role="listitem">
+          <div class="timeline-time">10 – 30 Minutes</div>
+          <h3>Stabilization Phase</h3>
+          <p>The community stabilizes the situation through physical assistance or guidance until professional help arrives.</p>
+        </div>
+        <div class="timeline-item" role="listitem">
+          <div class="timeline-time">30 – 60 Minutes</div>
+          <h3>Resolution Phase</h3>
+          <p>The emergency is resolved when the victim presses SAFE or responders confirm END. All sensitive session data is permanently deleted.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Community Roles ======== -->
+    <section class="section" aria-labelledby="roles-heading">
+      <span class="section-label text-center" style="display:block">Who Responds</span>
+      <h2 class="section-title" id="roles-heading">Community Roles</h2>
+      <p class="section-subtitle">
+        A structured response prevents confusion while allowing many people to participate effectively.
+      </p>
+
+      <div class="grid-2">
+        <div class="card card--guider">
+          <div class="card-icon">🛡️</div>
+          <h3>Guiders</h3>
+          <p>The first <strong>three volunteers</strong> to respond become Guiders. They lead the response — communicating with the victim via secure VoIP, coordinating other responders, and providing guidance.</p>
+          <ul class="card-list">
+            <li>Direct WebRTC voice call to victim</li>
+            <li>Lead coordination in live chat</li>
+            <li>Assess situation and direct responders</li>
+          </ul>
+        </div>
+        <div class="card card--responder">
+          <div class="card-icon">🦸</div>
+          <h3>Responders</h3>
+          <p>All other volunteers join as Responders. They assist Guiders, provide on-the-ground support, and help secure the area — coordinating through the live session chat.</p>
+          <ul class="card-list">
+            <li>Join session and view updates</li>
+            <li>Move toward location if nearby</li>
+            <li>Assist under Guider instructions</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Features Grid ======== -->
+    <section class="section" aria-labelledby="features-heading">
+      <span class="section-label text-center" style="display:block">Built for Safety</span>
+      <h2 class="section-title" id="features-heading">Core Features</h2>
+      <p class="section-subtitle">
+        Every feature is designed for speed, security, and simplicity during the moments that matter most.
+      </p>
+
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">📞</div>
+          <h3>WebRTC Voice Calls</h3>
+          <p>Guiders connect to victims via secure internet voice calls — no phone numbers exchanged, ever.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📍</div>
+          <h3>GPS Tracking</h3>
+          <p>Accurate device location is shared during emergencies so responders can navigate directly to the victim.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">💬</div>
+          <h3>Live Chat</h3>
+          <p>Real-time session chat lets Guiders and Responders coordinate movement, share updates, and track progress.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📡</div>
+          <h3>Escalation System</h3>
+          <p>If volunteer response is insufficient, alerts automatically escalate to regional feeds and community channels.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <h3>Privacy First</h3>
+          <p>Minimal data sharing during emergencies. All session data is permanently deleted upon resolution.</p>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🌐</div>
+          <h3>Open Source</h3>
+          <p>Built by the community, for the community. Transparent, auditable, and continuously improving through open collaboration.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Data Privacy ======== -->
+    <section class="section" aria-labelledby="privacy-heading">
+      <span class="section-label text-center" style="display:block">Your Safety, Your Data</span>
+      <h2 class="section-title" id="privacy-heading">Your Data, Protected</h2>
+      <p class="section-subtitle">
+        We share only what's needed and never store what's not.
+        All session data is deleted permanently upon resolution.
+      </p>
+
+      <div class="privacy-grid">
+        <div class="privacy-card privacy-card--shared">
+          <h3>✅ What We Share</h3>
+          <ul class="privacy-list">
+            <li>Name entered during setup</li>
+            <li>GPS coordinates of device</li>
+            <li>Emergency session ID</li>
+            <li>Time of alert</li>
+            <li>Alert type (SOS or Crowd)</li>
+          </ul>
+        </div>
+        <div class="privacy-card privacy-card--protected">
+          <h3>🚫 What We Never Store</h3>
+          <ul class="privacy-list">
+            <li>Phone numbers</li>
+            <li>Personal history</li>
+            <li>Device identifiers</li>
+            <li>Post-session location data</li>
+            <li>Conversation recordings</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======== Open Source CTA ======== -->
+    <section class="cta-section" aria-labelledby="cta-heading">
+      <h2 class="section-title" id="cta-heading">
+        Join the <span class="gradient-text">Mission</span>
+      </h2>
       <p>
-        A distributed human safety network that connects nearby people during
-        emergencies.
+        Humanity Safety is an open-source project built by the community, for the community.
+        Every contribution matters — from code to feedback.
       </p>
-      <div>
-        <a href="learn.html" class="btn">Learn the System</a>
-        <a href="simulation.html" class="btn btn-secondary">Open Simulation</a>
+      <div class="cta-actions">
+        <a href="#" class="btn btn-primary btn-lg">⭐ View on GitHub</a>
+        <a href="simulation.html" class="btn btn-secondary btn-lg">🚀 Try the Demo</a>
       </div>
     </section>
 
-    <section id="problems" class="section">
-      <h2>The Problem</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Delayed Response</h3>
-          <p>
-            Emergency services often take crucial minutes to arrive, during the
-            golden hour when immediate action saves lives.
-          </p>
-        </div>
-        <div class="card">
-          <h3>No Coordination</h3>
-          <p>
-            Nearby people want to help but lack awareness and coordination
-            mechanisms.
-          </p>
-        </div>
-        <div class="card">
-          <h3>Disconnected Communities</h3>
-          <p>
-            Crisis isolates individuals despite crowds around them who could
-            respond instantly.
-          </p>
-        </div>
-        <div class="card">
-          <h3>Limited Participation</h3>
-          <p>
-            Current systems rely only on official responders, underutilizing
-            citizen potential.
-          </p>
-        </div>
-      </div>
-    </section>
+  </main>
 
-    <section id="solution" class="section">
-      <h2>The HumanNet Solution</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>Nearby First Responders</h3>
-          <p>
-            Citizens within 1-2km become instant responders through HumanNet
-            network.
-          </p>
-        </div>
-        <div class="card">
-          <h3>Instant Alerts</h3>
-          <p>SOS broadcasts to volunteers and community simultaneously.</p>
-        </div>
-        <div class="card">
-          <h3>Structured Response</h3>
-          <p>
-            First 3 responders as Guiders coordinate via chat/VoIP, others
-            assist.
-          </p>
-        </div>
-        <div class="card">
-          <h3>Privacy Focused</h3>
-          <p>Minimal data shared, auto-deleted after resolution.</p>
-        </div>
-      </div>
-    </section>
+  <!-- ======== Footer ======== -->
+  <footer>
+    <p class="footer-quote">
+      "When someone faces danger, help should emerge from the people around them."
+    </p>
+    <p class="footer-meta">Open Source · Privacy First · Community Powered</p>
+  </footer>
 
-    <section id="features" class="section">
-      <h2>Core Features</h2>
-      <div class="grid">
-        <div class="card">
-          <h3>🚨 Emergency Alerts</h3>
-          <p>Self-SOS or bystander reports with GPS and minimal info.</p>
-        </div>
-        <div class="card">
-          <h3>👥 Volunteer Network</h3>
-          <p>Guiders (first 3) + Responders coordinate in real-time.</p>
-        </div>
-        <div class="card">
-          <h3>📢 Crowd Reporting</h3>
-          <p>Community reports public dangers like floods or protests.</p>
-        </div>
-        <div class="card">
-          <h3>⚡ Real-Time Awareness</h3>
-          <p>Live feed, location tracking, escalation to public channels.</p>
-        </div>
-        <div class="card">
-          <h3>🛡️ Community Safety</h3>
-          <p>Golden hour focus with rapid community activation.</p>
-        </div>
-      </div>
-    </section>
-    <footer class="site-footer">
-      <blockquote class="footer-quote">
-        "When someone faces danger, help should emerge from the people around
-        them."
-      </blockquote>
-      <p class="footer-author">— HumanNet Vision</p>
-      <p class="footer-note">
-        <strong>This is a simulation preview.</strong> Full system coming soon.
-      </p>
-      <p class="footer-credit">Open source | Pure HTML/CSS/JS demo</p>
-    </footer>
-
-    <script src="script.js"></script>
-  </body>
+  <script src="script.js"></script>
+</body>
 </html>
