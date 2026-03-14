@@ -194,3 +194,9 @@ Humanity Safety is designed as a **community-powered emergency support network**
 # **17. Conclusion**
 
 Humanity Safety transforms emergency response from an isolated experience into a coordinated community effort. By enabling rapid alerts, structured volunteer coordination, and widespread awareness, the platform increases the chances of timely assistance during critical moments. Built as an open-source project, it encourages collaboration and participation from communities everywhere. Its mission is simple: ensure that when someone faces danger, help can emerge quickly from the people around them. 🛡️
+
+
+HumanNet can include a crowd-relay SOS feature where nearby phones help deliver an emergency alert even if the victim has weak or no internet. 
+When a user presses the SOS button, their phone broadcasts a small Bluetooth signal that can be detected by nearby HumanNet users’ phones. 
+Those nearby devices automatically relay the SOS message and location to the HumanNet server, which then alerts volunteers in the area. 
+This creates a community-powered safety network, where every HumanNet user’s phone acts as a small relay node, helping emergency alerts reach help faster. 🚨📡
